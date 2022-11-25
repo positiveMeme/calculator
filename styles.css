@@ -34,7 +34,7 @@ button {
     cursor: pointer;
 }
 
-#display {
+.display {
     width: 100%;
     height: 80px;
     border: 5px solid black;
@@ -63,4 +63,8 @@ button {
 .sign,
 .delete {
     background-color: rgb(135, 167, 235)
+}
+
+button:active {
+    filter: brightness(120%);
 }
