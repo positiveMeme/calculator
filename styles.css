@@ -49,7 +49,7 @@ button {
     width: 198px
 }
 
-.operand,
+.number,
 .decimal {
     background-color: darkcyan;
 }
