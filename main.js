@@ -52,6 +52,7 @@ for (let op of operators) {
                     display.innerText = calculate(divide, firstNum, secondNum);
                     break;
 
+
                 default:
                     break;
             }
@@ -59,16 +60,13 @@ for (let op of operators) {
     })
 };
 
-// function calculator(firstNum, secondNum, operator) {
-//     operators.forEach(operator => {
-//         operator.addEventListener("click", (e) => {
-//             firstNum = displayValue;
-//             console.log(firstNum);
-//             operator = e.target.innerText;
-//             console.log(operator);
-//         })
-//     })
-// }
+clear.addEventListener("click", () => {
+    AC();
+});
+
+decimal.addEventListener("click", () => {
+    dot();
+});
 
 
 // calculator();
@@ -92,3 +90,18 @@ function divide(a, b) {
 function calculate(func, a, b) {
     return func(a, b);
 }
+
+function AC() {
+    firstNum = "";
+    secondNum = "";
+    operator = "";
+    display.innerText = "0";
+}
+
+// function dot() {
+//     display.innerText = `${display.innerText}.`
+// }
+
+// function delete () {
+    
+// }
