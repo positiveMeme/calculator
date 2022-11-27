@@ -21,11 +21,11 @@ for (let number of numbers) {
     number.addEventListener("click", e => {
         if (operator === "") { // Read first number if no operator set yet
             firstNum += e.target.innerText;
-            console.log(firstNum);
+            console.log(`firstNum is ${firstNum}`);
             display.innerText = firstNum;
         } else { // Read second number
             secondNum += e.target.innerText;
-            console.log(secondNum);
+            console.log(`secondNum is ${secondNum}`);
             display.innerText = secondNum;
         }
     });
@@ -75,12 +75,10 @@ decimal.addEventListener("click", () => {
     dot();
 });
 
-sign.addEventListener("click", () => {
-    if (firstNum !== '') {
-        firstNum = `${parseInt(firstNum) * -1}`;  
-    }
+// sign.addEventListener("click", () => {
+//     ();
    
-});
+// });
 
 // calculator();
 
@@ -97,12 +95,7 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    if (b === '0') {
-        return 'doh!';
-    }
-    else {
     return parseInt(a) / parseInt(b);
-    }
 }
 
 function calculate(func, a, b) {
@@ -122,6 +115,7 @@ function places(n) {
 
 // function dot() {
 //     display.innerText = `${ display.innerText }.`
+//     return display.innerText;
 // }
 
 // function delete () {
