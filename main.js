@@ -1,9 +1,16 @@
+// ToDo: String operators together ie 5 + 4 * 2 / 3 = 6
+// ToDo: Finish decimal and disable button to avoid 12.4.678.5 etc
+// ToDo: Add DEL button functionality
+// ToDo: Add keyboard support
+// ToDo: Add +/- button functionality
+
 const buttons = document.querySelectorAll('button');
 const display = document.querySelector('.display');
 const numbers = document.querySelectorAll(".number");
 const operators = document.querySelectorAll(".operator");
 const decimal = document.querySelector(".decimal");
 const clear = document.querySelector(".clear");
+const sign = document.querySelector(".sign");
 let displayValue = "0";
 
 let firstNum = "";
@@ -34,22 +41,22 @@ for (let op of operators) {
             switch (operator) { // Calculate and print output
                 case "+":
                     console.log(parseInt(firstNum) + parseInt(secondNum));
-                    display.innerText = calculate(add, firstNum, secondNum);
+                    display.innerText = places(calculate(add, firstNum, secondNum));
                     break;
 
                 case "-":
                     console.log(parseInt(firstNum) - parseInt(secondNum));
-                    display.innerText = calculate(subtract, firstNum, secondNum);
+                    display.innerText = places(calculate(subtract, firstNum, secondNum));
                     break;
 
                 case "*":
                     console.log(parseInt(firstNum) * parseInt(secondNum));
-                    display.innerText = calculate(multiply, firstNum, secondNum);
+                    display.innerText = places(calculate(multiply, firstNum, secondNum));
                     break;
 
                 case "/":
                     console.log(parseInt(firstNum) / parseInt(secondNum));
-                    display.innerText = calculate(divide, firstNum, secondNum);
+                    display.innerText = places(calculate(divide, firstNum, secondNum));
                     break;
 
 
@@ -68,6 +75,12 @@ decimal.addEventListener("click", () => {
     dot();
 });
 
+sign.addEventListener("click", () => {
+    if (firstNum !== '') {
+        firstNum = `${parseInt(firstNum) * -1}`;  
+    }
+   
+});
 
 // calculator();
 
@@ -84,7 +97,12 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
+    if (b === '0') {
+        return 'doh!';
+    }
+    else {
     return parseInt(a) / parseInt(b);
+    }
 }
 
 function calculate(func, a, b) {
@@ -98,8 +116,12 @@ function AC() {
     display.innerText = "0";
 }
 
+function places(n) {
+    return Math.round(n * 100000) / 100000;
+}
+
 // function dot() {
-//     display.innerText = `${display.innerText}.`
+//     display.innerText = `${ display.innerText }.`
 // }
 
 // function delete () {
