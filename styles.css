@@ -61,8 +61,8 @@ button {
     background-color: orange;
 }
 
-.clear,
-.sign,
+.AC,
+.C,
 .delete {
     background-color: rgb(135, 167, 235)
 }
