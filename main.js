@@ -1,5 +1,5 @@
-
-// ToDo: Add keyboard support
+// ToDo: disable keys not needed
+// ToDo: Disable operators and equals from being pressed twice and breaking program
 
 const buttons = document.querySelectorAll('button');
 const numbers = document.querySelectorAll('.number');
@@ -24,52 +24,16 @@ let operator = '';
 // Click listeners:
 window.addEventListener('keydown', e => {
     if (e.key >= 0 && e.key <= 9) {
-        currentNum += e.key;
-        currentDisplay.textContent = currentNum;
+        createNumber(e.key);
     }
     if (e.key === '-' || e.key === '+' || e.key === '/' || e.key === '*') {
-        operator = e.key;
-        previousNum = currentNum;
-        currentNum = '';
-        previousDisplay.textContent = `${previousNum} ${operator}`;
-        currentDisplay.textContent = '0';
+        if (currentNum.length !== 0) {
+            evaluate();
+            createOperator(e.key);
+        }
     }
     if (e.key === '=' || e.key === 'Enter') {
-        if (operator !== '' || currentNum === '') {
-            switch (operator) { // Calculate and print output
-                case "+":
-                    currentNum = places(calculate(add, previousNum, currentNum));
-                    currentDisplay.textContent = currentNum;
-                    previousNum = '';
-                    previousDisplay.textContent = '';
-                    break;
-
-                case "-":
-                    currentNum = places(calculate(subtract, previousNum, currentNum));
-                    currentDisplay.textContent = currentNum;
-                    previousNum = '';
-                    previousDisplay.textContent = '';
-                    break;
-
-                case "*":
-                    currentNum = places(calculate(multiply, previousNum, currentNum));
-                    currentDisplay.textContent = currentNum;
-                    previousNum = '';
-                    previousDisplay.textContent = '';
-                    break;
-
-                case "/":
-                    currentNum = places(calculate(divide, previousNum, currentNum));
-                    currentDisplay.textContent = currentNum;
-                    previousNum = '';
-                    previousDisplay.textContent = '';
-                    break;
-
-
-                default:
-                    break;
-            }
-        }
+        evaluate();
     }
     if (e.key === 'Backspace') {
         del();
@@ -80,62 +44,28 @@ window.addEventListener('keydown', e => {
     if (e.key === '.') {
         dot();
     }
-}
-)
+    if (e.key === ' ') {
+        del();
+    }
+});
 
 for (let number of numbers) {
     number.addEventListener('click', e => {
         createNumber(e.target.textContent);
-        currentDisplay.textContent = currentNum;
     });
 };
 
 for (let op of operators) {
-    if (operator === '') {
-        op.addEventListener('click', e => {
+    op.addEventListener('click', e => {
+        if (currentNum.length !== 0) {
+            evaluate();
             createOperator(e.target.textContent);
-            previousDisplay.textContent = `${previousNum} ${operator}`;
-            currentDisplay.textContent = '0';
-        });
-    }
+        }
+    });
 }
 
 equals.addEventListener('click', () => {
-    if (operator !== '' || currentNum === '') {
-        switch (operator) { // Calculate and print output
-            case "+":
-                currentNum = places(calculate(add, previousNum, currentNum));
-                currentDisplay.textContent = currentNum;
-                previousNum = '';
-                previousDisplay.textContent = '';
-                break;
-
-            case "-":
-                currentNum = places(calculate(subtract, previousNum, currentNum));
-                currentDisplay.textContent = currentNum;
-                previousNum = '';
-                previousDisplay.textContent = '';
-                break;
-
-            case "*":
-                currentNum = places(calculate(multiply, previousNum, currentNum));
-                currentDisplay.textContent = currentNum;
-                previousNum = '';
-                previousDisplay.textContent = '';
-                break;
-
-            case "/":
-                currentNum = places(calculate(divide, previousNum, currentNum));
-                currentDisplay.textContent = currentNum;
-                previousNum = '';
-                previousDisplay.textContent = '';
-                break;
-
-
-            default:
-                break;
-        }
-    }
+    evaluate();
 });
 
 AC.addEventListener("click", () => {
@@ -158,6 +88,7 @@ decimal.addEventListener("click", () => {
 function createNumber(num) {
     if (currentNum.length <= 10) {
         currentNum += num;
+        currentDisplay.textContent = currentNum;
     }
 }
 
@@ -165,6 +96,8 @@ function createOperator(op) {
     operator = op;
     previousNum = currentNum;
     currentNum = '';
+    previousDisplay.textContent = `${previousNum} ${operator}`;
+    currentDisplay.textContent = '';
 }
 
 function calculate(func, a, b) {
@@ -201,7 +134,7 @@ function clearAll() {
 
 function clearLast() {
     currentNum = '';
-    currentDisplay.textContent = '0';
+    currentDisplay.textContent = '';
 }
 
 function del() {
@@ -210,7 +143,49 @@ function del() {
 }
 
 function dot() {
-    if (currentNum.includes('.') !== true)
+    if (currentNum.includes('.') !== true && currentNum.length !== 0) {
         currentNum = currentNum.concat('.');
-    currentDisplay.textContent = currentNum;
+        currentDisplay.textContent = currentNum;
+    }
+    if (currentNum.length === 0) {
+        currentNum = '0';
+        currentNum = currentNum.concat('.');
+        currentDisplay.textContent = currentNum;
+    }
+}
+
+function evaluate() {
+    switch (operator) { // Calculate and print output
+        case "+":
+            currentNum = places(calculate(add, previousNum, currentNum));
+            currentDisplay.textContent = currentNum;
+            previousNum = '';
+            previousDisplay.textContent = '';
+            break;
+
+        case "-":
+            currentNum = places(calculate(subtract, previousNum, currentNum));
+            currentDisplay.textContent = currentNum;
+            previousNum = '';
+            previousDisplay.textContent = '';
+            break;
+
+        case "*":
+            currentNum = places(calculate(multiply, previousNum, currentNum));
+            currentDisplay.textContent = currentNum;
+            previousNum = '';
+            previousDisplay.textContent = '';
+            break;
+
+        case "/":
+            currentNum = places(calculate(divide, previousNum, currentNum));
+            currentDisplay.textContent = currentNum;
+            previousNum = '';
+            previousDisplay.textContent = '';
+            break;
+
+
+        default:
+            break;
+    }
 }
